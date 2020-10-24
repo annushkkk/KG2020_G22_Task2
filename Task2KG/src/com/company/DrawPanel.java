@@ -28,18 +28,27 @@ public class DrawPanel extends JPanel implements MouseMotionListener {
 
         gr.setColor(Color.BLACK);
         PixelDrawer pd = new GraphicsPixelDrawer(gr);
-        LineDrower ld=new WuLineDrawer(pd);
+        LineDrower ld=new DDALineDrawer(pd);
 
-        drawAll(ld);
+       ld.drawLine(getWidth()/2,0,getWidth()/2,getHeight());
+
+        LineDrower ld1=new WuLineDrawer(pd);
+
+        drawAll(ld1);
+
+
+
 
 
         g.drawImage(bi,0,0,null);
         gr.dispose();
     }
     private void drawAll(LineDrower ld){
-        //drawSnowflake(ld,400,350,160,32);
-        //ld.drawLine(getWidth()/2,getHeight()/2,(int)position.getX(),(int)position.getY());
-        ld.drawLine(100,150,200,300);
+       // drawSnowflake(ld,getWidth()/2,getHeight()/2,160,32);
+          ld.drawLine(getWidth()/2,getHeight()/2,(int)position.getX(),(int)position.getY());
+        //ld.drawLine(getWidth()/2,getHeight()/2,getWidth()/2+15,getHeight()/2+200);
+       // ld.drawLine(getWidth()/2,getHeight()/2,getWidth()/2+2,getHeight()/2-10);
+
 
     }
     public static  void drawSnowflake(LineDrower ld,int x, int y,int r, int n){
