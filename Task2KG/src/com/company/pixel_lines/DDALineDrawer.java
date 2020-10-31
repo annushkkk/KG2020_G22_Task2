@@ -34,7 +34,7 @@ public class DDALineDrawer implements LineDrower {
             }
             for(int j=x1;j<x2;j++){
                 double i = (j-x1)*k+y1;
-                pd.colorPixel((int)j,(int)i, Color.BLUE);
+                pd.colorPixel((int)j,(int)i, Color.RED);
             }
 
         }

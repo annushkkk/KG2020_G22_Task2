@@ -13,66 +13,13 @@ public class WuLineDrawer implements LineDrower {
         this.pd = pd;
     }
 
-//    @Override
-//    public void drawLine(int x1, int y1, int x2, int y2) {
-//        drawLine(x1, y1, x2, y2, Color.BLACK);
-//    }
-//
-
-//    public void drawLine(int x1, int y1, int x2, int y2, Color color) {
-//        boolean isLineVerticallyOriented = Math.abs(y2 - y1) > Math.abs(x2 - x1);
-//        if (isLineVerticallyOriented) {
-//            int temp = y1;
-//            y1 = x1;
-//            x1 = temp;
-//            temp = y2;
-//            y2 = x2;
-//            x2 = temp;
-//        }
-//        if (x1 > x2) {
-//            int temp = y2;
-//            y2 = y1;
-//            y1 = temp;
-//            temp = x2;
-//            x2 = x1;
-//            x1 = temp;
-//        }
-
-//        pd.colorPixel(x1, y1, color, isLineVerticallyOriented);
-//        pd.colorPixel(x2, y2, color, isLineVerticallyOriented);
-//        double dx = x2 - x1;
-//        double dy = y2 - y1;
-//        double slopeCoefficient = dy / dx;
-//        double y = y1 + slopeCoefficient;
-//        for (int x = x1 + 1; x <= x2 - 1; x++) {
-//            pd.colorPixel(
-//                    x,
-//                    (int) y,
-//                    new Color(
-//                            color.getRed(),
-//                            color.getGreen(),
-//                            color.getBlue(),
-//                            (int) (255 * (1 - y + (int) y))
-//                    ),
-//                    isLineVerticallyOriented
-//            );
-//            pd.colorPixel(
-//                    x,
-//                    (int) y + 1,
-//                    new Color(
-//                            color.getRed(),
-//                            color.getGreen(),
-//                            color.getBlue(),
-//                            (int) (255 * (y - (int) y))
-//                    ),
-//                    isLineVerticallyOriented
-//            );
-//            y += slopeCoefficient;
-//        }
-
 
     @Override
     public void drawLine(int x1, int y1, int x2, int y2) {
+        drawLine(x1, y1, x2, y2, Color.BLACK);
+    }
+
+    private void drawLine(int x1, int y1, int x2, int y2,Color color) {
         int sign = 1;
         if (x1 > x2) {
             int c = x1;
@@ -90,57 +37,69 @@ public class WuLineDrawer implements LineDrower {
         int Dx = x2 - x1;
         int Dy = y2 - y1;
 
-        float tg;
+        float tg,obrtg;
         if (Dx != 0) {
           tg=  Math.abs((float) Dy / Dx);
         } else {
-            tg = Dy;
+            tg = 0;
         }
+        if (tg==0){
+            obrtg=0;
+        } else{
+            obrtg=1/tg;
+        }
+
         Color b1, b2;
-        float y_line = tg * sign + y1;
-        float x_line = 1 / tg + x1;
+        float y_line = y1 +sign*tg;
+        float x_line = obrtg + x1;
 
         if (Math.abs(Dy) <= Math.abs(Dx)) {
-            pd.colorPixel(x1, y1, Color.BLACK);
+            pd.colorPixel(x1, y1, color);
+
             x++;
+            if (sign < 0) {
+                y_line++;
+            }
             for (int i = 1; i <= Dx; i++) {
 
-                b1 = SetColor(y_line - (int) (y_line));
-                b2 = SetColor(1 - (y_line - (int) (y_line)));
+                b1 = SetColor(y_line - (int) (y_line),color);
+
+                b2 = SetColor(1 - (y_line - (int) (y_line)),color);
+
                 if (sign < 0) {
+
                     Color c = b1;
                     b1 = b2;
                     b2 = c;
                 }
-                pd.colorPixel(x, (int) y_line + sign, b2);
-                pd.colorPixel(x, (int) y_line, b1);
-                System.out.println("y_line");
-                System.out.println(y_line);
+                pd.colorPixel(x, (int) y_line + sign, b1);
+                pd.colorPixel(x, (int) y_line, b2);
+
                 y_line += tg * sign;
                 x++;
 
             }
         } else {
-            pd.colorPixel(x1, y1, Color.BLACK);
+            pd.colorPixel(x1, y1, color);
+            pd.colorPixel(x2,y2,color);
             y += sign;
             for (int i = 1; i <= Math.abs(Dy); i++) {
 
-                b1 = SetColor(x_line - (int) (x_line));
-                b2 = SetColor(1 - (x_line - (int) (x_line)));
+                b1 = SetColor(x_line - (int) (x_line),color);
+                b2 = SetColor(1 - (x_line - (int) (x_line)),color);
 
-                pd.colorPixel((int) x_line + 1, y, b2);
-                pd.colorPixel((int) x_line, y, b1);
-                System.out.println("xline");
-                System.out.println(x_line);
-                x_line += 1 / tg;
+                pd.colorPixel((int) x_line + 1, y, b1);
+                pd.colorPixel((int) x_line, y, b2);
+
+                x_line += obrtg;
                 y += sign;
             }
         }
     }
 
-    private Color SetColor(float t) {
+    private Color SetColor(float t, Color color) {
         int c = (int) (255 * t);
-        Color res = new Color(c, c, c);
+        Color res = new Color(color.getRed(),color.getGreen(), color.getBlue(), c);
         return res;
     }
 }
