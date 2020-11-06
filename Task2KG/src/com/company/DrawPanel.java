@@ -46,7 +46,7 @@ ld.drawLine(getWidth()/2,0,getWidth()/2,getHeight());
     }
     private void drawAll(LineDrower ld){
        // ld.drawLine(100,getHeight()/2,270,getHeight()/2-1);
-      //  drawSnowflake(ld,getWidth()/2,getHeight()/2,160,32);
+        drawSnowflake(ld,getWidth()/2,getHeight()/2,160,32);
           ld.drawLine(getWidth()/2,getHeight()/2,(int)position.getX(),(int)position.getY());
         //ld.drawLine(getWidth()/2,getHeight()/2,getWidth()/2+15,getHeight()/2+200);
 //        ld.drawLine(getWidth()/2,getHeight()/2,190,440);

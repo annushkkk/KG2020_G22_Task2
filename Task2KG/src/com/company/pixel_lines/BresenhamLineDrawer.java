@@ -82,8 +82,8 @@ public class BresenhamLineDrawer implements LineDrower {
 
 
         if(Math.abs(Dy)<=Math.abs(Dx)){
-            for (int i = 1; i <= Dx; i++) {
-
+            for (int i = 0; i <= Dx; i++) {
+                pd.colorPixel(x, y, Color.BLUE);
 //                System.out.println('e');
 //                System.out.println(e);
                 if (e >= 0) {
@@ -92,15 +92,15 @@ public class BresenhamLineDrawer implements LineDrower {
                 } else {
                     e += (sign)*2 * Dy;
                 }
-                pd.colorPixel(x, y, Color.BLUE);
+
                 x++;
             }
         } else{
            // pd.colorPixel(x, y, Color.BLUE);
-              // e=2*Dx-Dy*sign;
-            for (int i = 1; i <= Math.abs(Dy); i++) {
-                System.out.println('e');
-                System.out.println(e);
+                e=2*Dx-Dy*sign;
+            for (int i = 0; i <= Math.abs(Dy); i++) {
+//                System.out.println('e');
+//                System.out.println(e);
                 pd.colorPixel(x, y, Color.BLUE);
                 if (e >= 0) {
                     x++;
